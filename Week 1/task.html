@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Manga & Manhua E-Library</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #121212;
+    color: white;
+}
+
+header {
+    background: #1f1f1f;
+    padding: 15px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    color: #ff4c4c;
+}
+
+.search-bar {
+    margin-top: 10px;
+}
+
+input {
+    padding: 8px;
+    width: 60%;
+    border-radius: 5px;
+    border: none;
+}
+
+.container {
+    padding: 20px;
+}
+
+.categories button {
+    margin: 5px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background: #ff4c4c;
+    color: white;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.card {
+    background: #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.card h3 {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.card p {
+    padding: 0 10px 10px;
+    font-size: 14px;
+    color: #aaa;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📚 Manga & Manhua Library</h1>
+    <div class="search-bar">
+        <input type="text" id="search" placeholder="Search manga or manhua...">
+    </div>
+</header>
+
+<div class="container">
+
+    <div class="categories">
+        <button onclick="filterCategory('all')">All</button>
+        <button onclick="filterCategory('manga')">Manga</button>
+        <button onclick="filterCategory('manhua')">Manhua</button>
+    </div>
+
+    <div class="grid" id="library"></div>
+
+</div>
+
+<script>
+const libraryData = [
+    { 
+        title: "Naruto", 
+        type: "manga", 
+        img: "https://upload.wikimedia.org/wikipedia/en/9/94/NarutoCoverTankobon1.jpg" 
+    },
+    { 
+        title: "One Piece", 
+        type: "manga", 
+        img: "https://i.redd.it/pm6d1gha5xj41.jpg" 
+    },
+    { 
+        title: "Attack on Titan", 
+        type: "manga", 
+        img: "https://m.media-amazon.com/images/I/61t9ie31jgL._AC_UF894,1000_QL80_.jpg" 
+    },
+    { 
+        title: "Solo Leveling", 
+        type: "manhua", 
+        img: "https://sm.ign.com/ign_in/cover/s/solo-level/solo-leveling-arise_ehxu.jpg" 
+    },
+    { 
+        title: "The King's Avatar", 
+        type: "manhua", 
+        img: "https://m.media-amazon.com/images/I/71K92XLOyQL._UF1000,1000_QL80_.jpg" 
+    },
+    { 
+        title: "Martial Peak", 
+        type: "manhua", 
+        img: "https://m.media-amazon.com/images/M/MV5BOTFkNjI4ODYtYWJkMC00N2YxLTljY2EtNTkzNzIzM2NjYzIyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" 
+    }
+];  
+
+const libraryDiv = document.getElementById("library");
+
+function displayBooks(data) {
+    libraryDiv.innerHTML = "";
+    data.forEach(book => {
+        const card = `
+            <div class="card">
+                <img src="${book.img}">
+                <h3>${book.title}</h3>
+                <p>${book.type.toUpperCase()}</p>
+            </div>
+        `;
+        libraryDiv.innerHTML += card;
+    });
+}
+
+function filterCategory(category) {
+    if (category === "all") {
+        displayBooks(libraryData);
+    } else {
+        const filtered = libraryData.filter(b => b.type === category);
+        displayBooks(filtered);
+    }
+}
+
+document.getElementById("search").addEventListener("keyup", function() {
+    const value = this.value.toLowerCase();
+    const filtered = libraryData.filter(b => 
+        b.title.toLowerCase().includes(value)
+    );
+    displayBooks(filtered);
+});
+
+displayBooks(libraryData);
+</script>
+
+</body>
+</html>
